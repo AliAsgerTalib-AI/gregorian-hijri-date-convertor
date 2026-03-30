@@ -1,7 +1,6 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Header from './components/Header';
 import DateInput from './components/DateInput';
-import ConvertButton from './components/ConvertButton';
 import ResultDisplay from './components/ResultDisplay';
 import GridDivider from './components/GridDivider';
 import Footer from './components/Footer';
@@ -48,11 +47,13 @@ export default function App() {
     return opts;
   }, [month, year]);
 
-  const canConvert = day && month && year;
-
-  const handleConvert = useCallback(() => {
-    setError('');
+  // ── Auto-convert whenever all three fields are filled ──────────────────────
+  useEffect(() => {
+    // Clear stale results whenever any field changes
     setResult(null);
+    setError('');
+
+    if (!day || !month || !year) return;
 
     const d = Number(day);
     const m = Number(month);
@@ -64,38 +65,22 @@ export default function App() {
     }
 
     try {
-      const hijri = toHijri(y, m, d);
-      setResult(hijri);
+      setResult(toHijri(y, m, d));
     } catch {
       setError('Conversion failed. Please try a different date.');
     }
   }, [day, month, year]);
 
-  // Handle Enter key on any select
-  const handleKeyDown = useCallback(
-    (e) => {
-      if (e.key === 'Enter' && canConvert) {
-        handleConvert();
-      }
-    },
-    [canConvert, handleConvert]
-  );
-
-  // Set today's date
-  const handleToday = useCallback(() => {
+  // Set today's date — the useEffect above will auto-convert once state settles
+  const handleToday = () => {
     const now = new Date();
     setDay(String(now.getDate()));
     setMonth(String(now.getMonth() + 1));
     setYear(String(now.getFullYear()));
-    setResult(null);
-    setError('');
-  }, []);
+  };
 
   return (
-    <div
-      className="min-h-screen bg-surface flex flex-col px-4 sm:px-10 lg:px-[5.5rem] py-8 sm:py-12 lg:py-[4.5rem]"
-      onKeyDown={handleKeyDown}
-    >
+    <div className="min-h-screen bg-surface flex flex-col px-4 sm:px-10 lg:px-[5.5rem] py-8 sm:py-12 lg:py-[4.5rem]">
       {/* ── Header ── */}
       <Header />
 
@@ -123,10 +108,8 @@ export default function App() {
           </button>
         </div>
 
-        {/* Mobile: stack all fields + button full-width
-            Tablet: Day+Month on row 1, Year+Button on row 2
-            Desktop: all four in one row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] gap-0">
+        {/* Three equal columns — no Convert button needed */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-0">
           <DateInput
             id="input-day"
             label="Day"
@@ -148,10 +131,6 @@ export default function App() {
             onChange={setYear}
             options={yearOptions}
           />
-          {/* Button spans full width on mobile, auto-width on desktop */}
-          <div className="sm:col-span-2 lg:col-span-1">
-            <ConvertButton onClick={handleConvert} disabled={!canConvert} />
-          </div>
         </div>
       </section>
 
