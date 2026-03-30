@@ -14,7 +14,7 @@ export default function GridDivider({ orientation = 'horizontal', className = ''
 
   return (
     <div
-      className={`h-px bg-primary w-screen -ml-[5.5rem] ${className}`}
+      className={`h-px bg-primary w-screen -ml-4 sm:-ml-10 lg:-ml-[5.5rem] ${className}`}
       aria-hidden="true"
     />
   );

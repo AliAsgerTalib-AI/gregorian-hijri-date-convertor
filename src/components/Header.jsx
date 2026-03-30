@@ -5,7 +5,7 @@
 export default function Header() {
   return (
     <header className="mb-8">
-      <h1 className="text-[3.5rem] font-bold leading-[1.05] text-primary tracking-[-0.02em]">
+      <h1 className="text-[2.25rem] sm:text-[3rem] lg:text-[3.5rem] font-bold leading-[1.05] text-primary tracking-[-0.02em]">
         Gregorian
         <br />
         <span className="text-on-surface-variant">→ Hijri</span>

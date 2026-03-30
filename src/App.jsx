@@ -93,7 +93,7 @@ export default function App() {
 
   return (
     <div
-      className="min-h-screen bg-surface flex flex-col px-[5.5rem] py-[4.5rem]"
+      className="min-h-screen bg-surface flex flex-col px-4 sm:px-10 lg:px-[5.5rem] py-8 sm:py-12 lg:py-[4.5rem]"
       onKeyDown={handleKeyDown}
     >
       {/* ── Header ── */}
@@ -123,7 +123,10 @@ export default function App() {
           </button>
         </div>
 
-        <div className="grid grid-cols-[1fr_1fr_1fr_auto] gap-0">
+        {/* Mobile: stack all fields + button full-width
+            Tablet: Day+Month on row 1, Year+Button on row 2
+            Desktop: all four in one row */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] gap-0">
           <DateInput
             id="input-day"
             label="Day"
@@ -145,7 +148,10 @@ export default function App() {
             onChange={setYear}
             options={yearOptions}
           />
-          <ConvertButton onClick={handleConvert} disabled={!canConvert} />
+          {/* Button spans full width on mobile, auto-width on desktop */}
+          <div className="sm:col-span-2 lg:col-span-1">
+            <ConvertButton onClick={handleConvert} disabled={!canConvert} />
+          </div>
         </div>
       </section>
 

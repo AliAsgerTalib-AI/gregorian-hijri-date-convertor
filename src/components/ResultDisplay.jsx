@@ -38,13 +38,13 @@ export default function ResultDisplay({ result, error }) {
       {/* The converted date — display-lg, the centrepiece */}
       <p
         id="hijri-result"
-        className="text-[3.5rem] font-bold leading-tight text-primary"
+        className="text-[2rem] sm:text-[3rem] lg:text-[3.5rem] font-bold leading-tight text-primary"
       >
         {result.formatted}
       </p>
 
       {/* Structured breakdown */}
-      <div className="mt-4 border-t border-primary pt-[0.4rem] flex gap-8">
+      <div className="mt-4 border-t border-primary pt-[0.4rem] flex gap-4 sm:gap-8 flex-wrap">
         <div>
           <span className="text-[0.6875rem] font-medium uppercase tracking-[0.05rem] text-on-surface-variant">
             Day

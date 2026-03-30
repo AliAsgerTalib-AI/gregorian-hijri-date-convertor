@@ -11,7 +11,7 @@ export default function ConvertButton({ onClick, disabled }) {
       disabled={disabled}
       className={`
         border border-primary
-        px-8 py-4 w-full
+        px-8 py-4 w-full h-full
         text-[0.75rem] font-medium uppercase tracking-[0.05rem]
         transition-colors duration-100 ease-linear
         cursor-pointer select-none
