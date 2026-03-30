@@ -2,8 +2,8 @@ import { getIslamicEvent } from '../utils/islamicEvents';
 
 /**
  * ResultDisplay — "The Final Truth"
- * 2px black border (the only exception).
- * Display-lg type, flush-left, bottom-justified.
+ * Shows the Hijri date in Arabic (primary) and English (secondary).
+ * 2px black border. Swiss Typographic layout.
  */
 export default function ResultDisplay({ result, error }) {
   if (error) {
@@ -23,8 +23,8 @@ export default function ResultDisplay({ result, error }) {
         <p className="text-[0.75rem] font-medium uppercase tracking-[0.05rem] text-outline mb-[0.75rem]">
           Hijri Date
         </p>
-        <p className="text-[2rem] font-semibold text-outline-variant">
-          — . — . ——
+        <p className="text-[2rem] font-semibold text-outline-variant" dir="rtl" lang="ar">
+          — · — · ——
         </p>
       </div>
     );
@@ -36,57 +36,88 @@ export default function ResultDisplay({ result, error }) {
     <div className="flex flex-col gap-0">
       {/* ── Main result card ── */}
       <div className="border-2 border-primary p-[0.4rem] min-h-[8rem] flex flex-col justify-end">
-        {/* Technical annotation label */}
+
+        {/* Section label */}
         <p className="text-[0.75rem] font-medium uppercase tracking-[0.05rem] text-on-surface-variant mb-[0.75rem]">
           Hijri Date
         </p>
 
-        {/* The converted date — display-lg, the centrepiece */}
+        {/* ── Arabic (primary headline) ── */}
         <p
-          id="hijri-result"
-          className="text-[2rem] sm:text-[3rem] lg:text-[3.5rem] font-bold leading-tight text-primary"
+          id="hijri-result-ar"
+          dir="rtl"
+          lang="ar"
+          className="text-[2rem] sm:text-[3rem] lg:text-[3.5rem] font-bold leading-tight text-primary text-right"
+          style={{ fontFamily: "'Noto Naskh Arabic', 'Amiri', serif" }}
+        >
+          {result.arabicFormatted}
+        </p>
+
+        {/* ── English (secondary, below) ── */}
+        <p
+          id="hijri-result-en"
+          className="mt-1 text-[0.875rem] sm:text-[1rem] font-medium text-on-surface-variant tracking-wide"
         >
           {result.formatted}
         </p>
 
-        {/* Structured breakdown */}
+        {/* ── Bilingual breakdown ── */}
         <div className="mt-4 border-t border-primary pt-[0.4rem] flex gap-4 sm:gap-8 flex-wrap">
+
+          {/* Day */}
           <div>
             <span className="text-[0.6875rem] font-medium uppercase tracking-[0.05rem] text-on-surface-variant">
-              Day
+              Day / اليوم
             </span>
-            <p className="text-[1.5rem] font-semibold text-on-surface">
-              {result.day}
+            <p
+              dir="rtl" lang="ar"
+              className="text-[1.5rem] font-bold text-on-surface leading-tight"
+              style={{ fontFamily: "'Noto Naskh Arabic', 'Amiri', serif" }}
+            >
+              {result.arabicDay}
             </p>
+            <p className="text-[0.75rem] text-on-surface-variant">{result.day}</p>
           </div>
+
+          {/* Month */}
           <div>
             <span className="text-[0.6875rem] font-medium uppercase tracking-[0.05rem] text-on-surface-variant">
-              Month
+              Month / الشهر
             </span>
-            <p className="text-[1.5rem] font-semibold text-on-surface">
-              {result.monthName}
+            <p
+              dir="rtl" lang="ar"
+              className="text-[1.5rem] font-bold text-on-surface leading-tight"
+              style={{ fontFamily: "'Noto Naskh Arabic', 'Amiri', serif" }}
+            >
+              {result.arabicMonthName}
             </p>
+            <p className="text-[0.75rem] text-on-surface-variant">{result.monthName}</p>
           </div>
+
+          {/* Year */}
           <div>
             <span className="text-[0.6875rem] font-medium uppercase tracking-[0.05rem] text-on-surface-variant">
-              Year
+              Year / السنة
             </span>
-            <p className="text-[1.5rem] font-semibold text-on-surface">
-              {result.year} <span className="text-[0.875rem] text-on-surface-variant">AH</span>
+            <p
+              dir="rtl" lang="ar"
+              className="text-[1.5rem] font-bold text-on-surface leading-tight"
+              style={{ fontFamily: "'Noto Naskh Arabic', 'Amiri', serif" }}
+            >
+              {result.arabicYear} <span className="text-[0.875rem]">هـ</span>
             </p>
+            <p className="text-[0.75rem] text-on-surface-variant">{result.year} AH</p>
           </div>
+
         </div>
       </div>
 
-      {/* ── Islamic Event Banner (only rendered when there's a match) ── */}
+      {/* ── Islamic Event Banner ── */}
       {event && (
         <div className="border-2 border-t-0 border-primary bg-primary px-[0.4rem] py-3 flex items-start gap-3">
-          {/* Icon column */}
           <span className="text-[1.25rem] leading-none text-on-primary select-none mt-[0.1rem]" aria-hidden="true">
             {event.icon}
           </span>
-
-          {/* Text column */}
           <div className="flex flex-col gap-[0.25rem]">
             <p className="text-[0.6875rem] font-medium uppercase tracking-[0.08rem] text-on-primary opacity-70">
               Islamic Occasion
